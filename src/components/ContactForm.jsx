@@ -8,6 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from '@/lib/utils';
+import emailjs from '@emailjs/browser';
+
+// Initialize EmailJS with your public key
+emailjs.init("UsIRF_fIEY6GHH4Ny");
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +22,7 @@ const ContactForm = () => {
     message: '',
   });
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const validate = () => {
@@ -49,22 +54,64 @@ const ContactForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (validate()) {
-      console.log('Form submitted:', formData);
-      toast({
-        title: "Message Sent! 🎉",
-        description: "Thanks for reaching out! We'll get back to you soon.",
-      });
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        inquiryType: '',
-        message: '',
-      });
-      setErrors({});
+      setIsLoading(true);
+      try {
+        // Prepare template parameters
+        const templateParams = {
+          to_email: 'sales@silversnowenergy.co.uk',
+          from_name: formData.name,
+          from_email: formData.email,
+          company: formData.company || 'Not provided',
+          inquiry_type: formData.inquiryType,
+          message: formData.message,
+          subject: `New Partnership Inquiry: ${formData.inquiryType}`,
+          reply_to: formData.email,
+          date: new Date().toLocaleDateString(),
+          time: new Date().toLocaleTimeString(),
+        };
+
+        // Send email using EmailJS
+        const result = await emailjs.send(
+          'service_mqp7gcu', // Service ID
+          'template_f7l8fav', // You'll need to replace this with your actual template ID
+          templateParams,
+          'UsIRF_fIEY6GHH4Ny'         // Replace with your EmailJS public key
+        );
+
+        if (result.status === 200) {
+          // Show success message
+          toast({
+            title: "Message Sent! 🎉",
+            description: "Thanks for reaching out! We'll get back to you soon.",
+          });
+
+          // Reset form
+          setFormData({
+            name: '',
+            email: '',
+            company: '',
+            inquiryType: '',
+            message: '',
+          });
+          setErrors({});
+        } else {
+          throw new Error('Failed to send email');
+        }
+
+      } catch (error) {
+        console.error('Error sending email:', error);
+        toast({
+          title: "Failed to send message",
+          description: "Please try again later or contact us directly at sales@silversnowenergy.co.uk",
+          variant: "destructive"
+        });
+      } finally {
+        setIsLoading(false);
+      }
     } else {
       toast({
         title: "Oops! Something's missing. 🧐",
@@ -213,8 +260,9 @@ const ContactForm = () => {
                 type="submit"
                 size="lg"
                 className="w-full sm:w-auto rounded-full font-bold py-7 px-12"
+                disabled={isLoading}
               >
-                Send Inquiry
+                {isLoading ? "Sending..." : "Send Inquiry"}
               </Button>
             </motion.div>
           </form>
