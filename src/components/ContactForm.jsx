@@ -76,10 +76,10 @@ const ContactForm = () => {
 
         // Send email using EmailJS
         const result = await emailjs.send(
-          'service_mqp7gcu', // Service ID
-          'template_nd31yzt', // You'll need to replace this with your actual template ID
+          'service_teyy3gd', // Service ID
+          'template_g9xgodd', // You'll need to replace this with your actual template ID
           templateParams,
-          'UsIRF_fIEY6GHH4Ny'         // Replace with your EmailJS public key
+          'zzzSdNfPnYmtzpEcX'         // Replace with your EmailJS public key
         );
 
         if (result.status === 200) {
