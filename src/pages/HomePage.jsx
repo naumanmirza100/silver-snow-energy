@@ -10,6 +10,7 @@ import Ingredients from '@/components/Ingredients';
 import Nutrition from '@/components/Nutrition';
 import Partnership from '@/components/Partnership';
 import Gallery from '@/components/Gallery';
+import CertificationsImages from '@/components/CertificationsImages';
 
 const HomePage = () => {
   return (
@@ -93,6 +94,8 @@ const HomePage = () => {
       <Partnership />
       <Gallery />
       <Nutrition />
+      <CertificationsImages />
+ 
     </>
   );
 };
