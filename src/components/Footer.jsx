@@ -119,7 +119,7 @@ const Footer = () => {
                             </li>
                             <li className="flex items-center justify-center md:justify-start gap-3">
                                 <Mail className="w-5 h-5 text-cyan-brand flex-shrink-0" />
-                                <a href="mailto:sales@silversnowenergy.co.uk" className="hover:text-cyan-brand transition-colors">sales@silversnowenergy.co.uk</a>
+                                <a href="mailto:hello@silversnowenergy.co.uk" className="hover:text-cyan-brand transition-colors">hello@silversnowenergy.co.uk</a>
                             </li>
                         </ul>
                     </motion.div>

@@ -62,7 +62,7 @@ const ContactForm = () => {
       try {
         // Prepare template parameters
         const templateParams = {
-          to_email: 'sales@silversnowenergy.co.uk',
+          to_email: 'hello@silversnowenergy.co.uk',
           from_name: formData.name,
           from_email: formData.email,
           company: formData.company || 'Not provided',
@@ -106,7 +106,7 @@ const ContactForm = () => {
         console.error('Error sending email:', error);
         toast({
           title: "Failed to send message",
-          description: "Please try again later or contact us directly at sales@silversnowenergy.co.uk",
+          description: "Please try again later or contact us directly at hello@silversnowenergy.co.uk",
           variant: "destructive"
         });
       } finally {
